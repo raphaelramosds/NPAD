@@ -1,6 +1,0 @@
-#!/bin/bash
-#SBATCH --time=1-2:3
-#SBATCH --cpus-per-task=32
-#SBATCH --partition=gpu-4-a100
-
-./vadd
