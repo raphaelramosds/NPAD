@@ -8,6 +8,8 @@
 echo "Sequential version:"
 ./vadd
 
-echo "Parallel version:"
+echo "Parallel version (CPU):"
 ./vadd_p
 
+echo "Parallel version (GPU):"
+OMP_TARGET_OFFLOAD=MANDATORY ./vadd_p_gpu
