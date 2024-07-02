@@ -18,8 +18,7 @@ int main()
     init_time    = -omp_get_wtime();
 
    // fill the arrays
-   # pragma omp target
-   # pragma omp loop
+   # pragma omp parallel for
    for (int i=0; i<N; i++){
       a[i] = (float)i;
       b[i] = 2.0*(float)i;
@@ -41,8 +40,7 @@ int main()
    test_time     = -omp_get_wtime();
 
    // test results
-   # pragma omp target map (tofrom:sum)
-   # pragma omp loop reduction (+:err)
+   # pragma omp parallel for reduction(+:err)
    for(int i=0;i<N;i++){
       float val = c[i] - res[i];
       val = val*val;
