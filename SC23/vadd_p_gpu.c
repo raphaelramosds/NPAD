@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <omp.h>
-#define N 10000000
+#define N 100000000
 #define TOL  0.0000001
 //
 //  This is a simple program to add two vectors
@@ -18,6 +18,8 @@ int main()
     init_time    = -omp_get_wtime();
 
    // fill the arrays
+   # pragma omp target
+   # pragma omp loop
    for (int i=0; i<N; i++){
       a[i] = (float)i;
       b[i] = 2.0*(float)i;
@@ -29,6 +31,8 @@ int main()
    compute_time  = -omp_get_wtime();
    
    // add two vectors
+   # pragma omp target
+   # pragma omp loop
    for (int i=0; i<N; i++){
       c[i] = a[i] + b[i];
    }
@@ -37,6 +41,8 @@ int main()
    test_time     = -omp_get_wtime();
 
    // test results
+   # pragma omp target map (tofrom:sum)
+   # pragma omp loop reduction (+:err)
    for(int i=0;i<N;i++){
       float val = c[i] - res[i];
       val = val*val;
