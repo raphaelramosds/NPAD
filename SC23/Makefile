@@ -12,9 +12,9 @@ vadd_p:
 
 vadd_p_gpu:
 	gcc $(FLAGS) vadd_p_gpu.c -o vadd_p_gpu
-	
+
 heat:
 	gcc $(FLAGS) heat.c -o heat -lm
 
 clean:
-	rm $(EXES)
+	rm $(EXES) *.out
