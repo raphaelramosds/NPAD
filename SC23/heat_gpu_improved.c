@@ -143,9 +143,9 @@ int main(int argc, char *argv[]) {
     u = u_tmp;
     u_tmp = tmp;
   }
-  #pragma omp target exit data map(from:u[0:n*n])
   // Stop solve timer
   double toc = omp_get_wtime();
+  #pragma omp target exit data map(from:u[0:n*n])
 
   //
   // Check the L2-norm of the computed solution
@@ -207,7 +207,7 @@ void solve(const int n, const double alpha, const double dx, const double dt, co
 
   // Loop over the nxn grid
   #pragma omp target
-  #pragma omp loop collapse(2)
+  #pragma omp teams distribute parallel for simd collapse(2)
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
 
