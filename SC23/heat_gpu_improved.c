@@ -207,7 +207,8 @@ void solve(const int n, const double alpha, const double dx, const double dt, co
 
   // Loop over the nxn grid
   #pragma omp target
-  #pragma omp teams distribute parallel for simd collapse(2)
+  #pragma omp loop collapse(2)
+  // #pragma omp teams distribute parallel for simd collapse(2)
   for (int i = 0; i < n; ++i) {
     for (int j = 0; j < n; ++j) {
 
