@@ -1,6 +1,6 @@
 FLAGS=-fopenmp -O3
 
-EXES=vadd vadd_p vadd_p_gpu heat
+EXES=vadd vadd_p vadd_p_gpu heat heat_gpu
 
 all: $(EXES)
 
@@ -15,6 +15,9 @@ vadd_p_gpu:
 
 heat:
 	gcc $(FLAGS) heat.c -o heat -lm
+
+heat_gpu:
+	gcc $(FLAGS) heat_gpu.c -o heat_gpu -lm
 
 clean:
 	rm $(EXES) *.out

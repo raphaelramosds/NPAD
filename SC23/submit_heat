@@ -5,4 +5,8 @@
 #SBATCH --job-name heat
 #SBATCH --output heat-%j.out
 
+echo "Sequential version:"
 ./heat 8000 50
+
+echo "Parallel version:"
+./heat_gpu 8000 50
