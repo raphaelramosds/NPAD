@@ -9,7 +9,7 @@ echo "Sequential version:"
 ./heat 8000 10
 
 echo "Parallel version:"
-./heat_gpu 8000 10
+OMP_TARGET_OFFLOAD=MANDATORY ./heat_gpu 8000 10
 
 echo "Parallel improved version:"
-./heat_gpu_improved 8000 10
+OMP_TARGET_OFFLOAD=MANDATORY ./heat_gpu_improved 8000 10
