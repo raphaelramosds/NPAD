@@ -10,3 +10,6 @@ echo "Sequential version:"
 
 echo "Parallel version:"
 ./heat_gpu 8000 10
+
+echo "Parallel improved version:"
+./heat_gpu_improved 8000 10

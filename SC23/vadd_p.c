@@ -18,7 +18,7 @@ int main()
     init_time    = -omp_get_wtime();
 
    // fill the arrays
-   # pragma omp parallel for
+   #pragma omp parallel for
    for (int i=0; i<N; i++){
       a[i] = (float)i;
       b[i] = 2.0*(float)i;
@@ -30,7 +30,7 @@ int main()
    compute_time  = -omp_get_wtime();
    
    // add two vectors
-   # pragma omp parallel for
+   #pragma omp parallel for
    for (int i=0; i<N; i++){
       c[i] = a[i] + b[i];
    }
@@ -39,7 +39,7 @@ int main()
    test_time     = -omp_get_wtime();
 
    // test results
-   # pragma omp parallel for reduction(+:err)
+   #pragma omp parallel for reduction(+:err)
    for(int i=0;i<N;i++){
       float val = c[i] - res[i];
       val = val*val;
