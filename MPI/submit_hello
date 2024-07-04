@@ -6,3 +6,5 @@
 #SBATCH --output hello-%j.out
 
 mpiexec -n 8 ./mpi_hello
+
+srun -n8 mpi_hello
