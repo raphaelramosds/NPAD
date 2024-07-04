@@ -1,0 +1,7 @@
+#!/bin/bash
+#SBATCH --nodes 1
+#SBATCH --time 00:02:00
+#SBATCH --job-name trap
+#SBATCH --output trap-%j.out
+
+mpiexec -n 2 ./mpi_trap1
