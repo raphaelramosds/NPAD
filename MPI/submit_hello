@@ -3,9 +3,9 @@
 #SBATCH --nodes=2
 #SBATCH --ntasks-per-node=2
 #SBATCH --cpus-per-task=1
-#SBATCH --time 0-0:5
-#SBATCH --job-name hello
-#SBATCH --output hello-%j.out
+#SBATCH --time=0-0:5
+#SBATCH --job-name=hello
+#SBATCH --output=hello-%j.out
 
 # mpiexec -n 4 ./mpi_hello
 
