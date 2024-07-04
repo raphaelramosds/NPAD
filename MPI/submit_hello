@@ -1,10 +1,12 @@
 #!/bin/bash
-#SBATCH --partition intel-128
-#SBATCH --nodes 1
-#SBATCH --time 00:02:00
+#SBATCH --partition=amd-512
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=2
+#SBATCH --cpus-per-task=1
+#SBATCH --time 0-0:5
 #SBATCH --job-name hello
 #SBATCH --output hello-%j.out
 
-mpiexec -n 8 ./mpi_hello
+# mpiexec -n 4 ./mpi_hello
 
-srun -n8 mpi_hello
+srun mpi_hello
