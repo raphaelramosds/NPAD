@@ -4,4 +4,4 @@
 #SBATCH --job-name trap
 #SBATCH --output trap-%j.out
 
-mpiexec -n 2 ./mpi_trap1
+mpiexec -n 8 ./mpi_trap1

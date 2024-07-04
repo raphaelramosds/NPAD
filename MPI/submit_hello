@@ -1,0 +1,7 @@
+#!/bin/bash
+#SBATCH --nodes 1
+#SBATCH --time 00:02:00
+#SBATCH --job-name hello
+#SBATCH --output hello-%j.out
+
+mpiexec -n 8 ./mpi_hello
