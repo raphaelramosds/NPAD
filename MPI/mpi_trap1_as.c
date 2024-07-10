@@ -67,8 +67,8 @@ int main(void) {
    } else {
       total_int = local_int;
       for (source = 1; source < comm_sz; source++) {
-         MPI_Recv(&local_int, 1, MPI_DOUBLE, source, 0,
-            MPI_COMM_WORLD, MPI_ANY_SOURCE);
+         MPI_Recv(&local_int, 1, MPI_DOUBLE, MPI_ANY_SOURCE, 0,
+            MPI_COMM_WORLD, MPI_STATUS_IGNORE);
          total_int += local_int;
       }
    } 
