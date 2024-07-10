@@ -7,6 +7,5 @@
 #SBATCH --job-name=hello
 #SBATCH --output=hello-%j.out
 
-# mpiexec -n 4 ./mpi_hello
-
+# Run on supercomputer
 srun mpi_hello
