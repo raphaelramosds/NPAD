@@ -4,8 +4,8 @@
 #SBATCH --ntasks-per-node=2
 #SBATCH --cpus-per-task=1
 #SBATCH --time=0-0:5
-#SBATCH --job-name=trap1
-#SBATCH --output=trap1-%j.out
+#SBATCH --job-name=trap1-as
+#SBATCH --output=trap1-as-%j.out
 
 # Run on supercomputer
 srun mpi_trap1_as
