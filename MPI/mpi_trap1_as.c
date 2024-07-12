@@ -38,7 +38,7 @@ double Trap(double left_endpt, double right_endpt, int trap_count,
 double f(double x); 
 
 int main(void) {
-   int my_rank, comm_sz, n = 1024, local_n;   
+   int my_rank, comm_sz, n = 100000000, local_n;   
    double a = 0.0, b = 3.0, h, local_a, local_b;
    double local_int, total_int;
    int source; 

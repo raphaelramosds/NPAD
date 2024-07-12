@@ -8,4 +8,4 @@
 #SBATCH --output=trap1-%j.out
 
 # Run on supercomputer
-srun mpi_trap1
+time srun mpi_trap1
