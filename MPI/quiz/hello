@@ -1,0 +1,20 @@
+#!/bin/bash
+
+if [ $# -eq 0 ]; then
+    echo "Error: Please provide an argument."
+    exit 1
+fi
+
+echo "Original execution:"
+mpiexec --oversubscribe -n $1 ./mpi_hello
+
+echo \
+
+echo "Without +1:"
+mpiexec --oversubscribe -n $1 ./mpi_hello_1
+
+echo \
+
+echo "Using MAX_STRING:"
+mpiexec --oversubscribe -n $1 ./mpi_hello_2
+
