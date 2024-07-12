@@ -21,7 +21,9 @@
  *
  * Note:  f(x), a, b, and n are all hardwired.
  * 
- * Note: ANY_SOURCE flag was used
+ * Note: ANY_SOURCE flag was used for speedup because it makes the
+ * 0-th rank proccess receiving data from any proccess that it's
+ * already to send it
  *
  * IPP:   Section 3.2.2 (pp. 96 and ff.)
  */

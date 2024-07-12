@@ -7,7 +7,5 @@
 #SBATCH --job-name=trap1-as
 #SBATCH --output=trap1-as-%j.out
 
-# With ANY_SOURCE your code may speedup because you receive data in any order
-
 # Run on supercomputer
 time srun mpi_trap1_as
