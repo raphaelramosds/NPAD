@@ -20,6 +20,8 @@
  *        the individual processes and prints the result.
  *
  * Note:  f(x), a, b, and n are all hardwired.
+ * 
+ * Note: ANY_SOURCE flag was used
  *
  * IPP:   Section 3.2.2 (pp. 96 and ff.)
  */
