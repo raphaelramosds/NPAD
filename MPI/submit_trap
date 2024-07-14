@@ -7,6 +7,13 @@
 #SBATCH --job-name=trap1
 #SBATCH --output=trap1-%j.out
 
-# Run on supercomputer
+# Run the original version
 time srun mpi_trap1
+
+# Run the version with ANY_SOURCE tag
 time srun mpi_trap1_as
+
+# Note: 
+#   The second version run faster because proccess 0
+#   receives data from any process that is done with 
+#   the sum
