@@ -9,3 +9,4 @@
 
 # Run on supercomputer
 time srun mpi_trap1
+time srun mpi_trap1_as
