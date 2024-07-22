@@ -1,0 +1,11 @@
+#!/bin/bash
+#SBATCH --partition=amd-512
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=4
+#SBATCH --cpus-per-task=4
+#SBATCH --time=0-0:5
+#SBATCH --job-name=odd_even
+#SBATCH --output=odd_even-%j.out
+#SBATCH --exclusive
+
+srun odd_even

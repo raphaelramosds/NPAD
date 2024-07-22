@@ -25,6 +25,28 @@ Exemplo. Na regra do trapézio podemos criar um datatype com {a,b,n}. Todos os t
 
 Ao invés de fazer Bcast com cada um dos três dados separadamente, enviando o tipo de dado customizado input_mpi_t, o compilador só precisa saber o endereço do primeiro elemento na estrutura (que é a_p), e acessar os outros dois utilizando o array de deslocamentos
 
-```c++
+```c
 MPI_Bcast(a_p, 1, input_mpi_t, 0, MPI_COMM_WORLD)
 ```
+
+## MPI Type vector
+
+A função MPI_Type_vector cria um tipo de dado derivado replicando um tipo de dado existente. Ou seja, uma estrutura é criada com block_count blocos separados pelo deslocamento stride, de modo que cada bloco possa comportar block_length elementos do tipo de dados informado na função MPI_Type_vector.
+
+```c
+int MPI_Type_vector(
+    int block_count,
+    int block_length,
+    int stride,
+    MPI_Datatype old_datatype,
+    MPI_Datatype* new_datatype
+);
+```
+
+Então, em uma chamada 
+
+```c
+MPI_Type_vector(3, 1, 3, MPI_INT, &column_type)
+```
+
+Será criada uma estrutura com 3 blocos, cada um contendo 1 elemento e a distância entre o começo de cada boco é 3

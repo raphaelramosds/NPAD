@@ -1,6 +1,6 @@
 FLAGS=-g -Wall -std=c99
 
-EXES=mpi_hello mpi_trap1 mpi_trap1_as
+EXES=mpi_hello mpi_trap1 mpi_trap1_any_source mpi_type_vect mpi_odd_even
 
 all: $(EXES)
 
@@ -10,8 +10,14 @@ mpi_hello:
 mpi_trap1:
 	mpicc $(FLAGS) -o mpi_trap1 mpi_trap1.c
 
-mpi_trap1_as:
-	mpicc $(FLAGS) -o mpi_trap1_as mpi_trap1_as.c
+mpi_trap1_any_source:
+	mpicc $(FLAGS) -o mpi_trap1_any_source mpi_trap1_any_source.c
+
+mpi_type_vect:
+	mpicc $(FLAGS) -o mpi_type_vect mpi_type_vect.c
+
+mpi_odd_even:
+	mpicc $(FLAGS) -o mpi_odd_even mpi_odd_even.c
 
 clean:
 	rm $(EXES) *.out
