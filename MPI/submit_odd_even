@@ -8,4 +8,4 @@
 #SBATCH --output=odd_even-%j.out
 #SBATCH --exclusive
 
-srun odd_even
+srun odd_even g 100
