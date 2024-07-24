@@ -11,4 +11,6 @@
 ARGS=($(<inputs.txt))
 ARG=${ARGS[${SLURM_ARRAY_TASK_ID}]}
 
-srun mpi_odd_even_time g $N
+echo $ARG
+
+# srun mpi_odd_even_time g $ARG

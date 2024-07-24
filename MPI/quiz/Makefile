@@ -26,4 +26,4 @@ mpi_odd_even_time:
 	mpicc $(FLAGS) -o mpi_odd_even_time mpi_odd_even_time.c
 
 clean:
-	rm $(EXES)
+	rm $(EXES) *.out *.err
