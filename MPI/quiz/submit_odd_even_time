@@ -6,11 +6,9 @@
 #SBATCH --time=0-0:5
 #SBATCH --job-name=odd_even
 #SBATCH --output=odd_even_time-%j.out
-#SBATCH --array=1-5
+#SBATCH --array=0-4
 
 ARGS=($(<inputs.txt))
 ARG=${ARGS[${SLURM_ARRAY_TASK_ID}]}
 
-echo $ARG
-
-# srun mpi_odd_even_time g $ARG
+mpirun mpi_odd_even_time g $ARG
