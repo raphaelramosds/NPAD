@@ -11,10 +11,10 @@ mpiexec --oversubscribe -n $1 ./mpi_hello
 echo \
 
 echo "Without +1:"
-mpiexec --oversubscribe -n $1 ./mpi_hello_1
+mpiexec --oversubscribe -n $1 ./mpi_hello_without_eof
 
 echo \
 
 echo "Using MAX_STRING:"
-mpiexec --oversubscribe -n $1 ./mpi_hello_2
+mpiexec --oversubscribe -n $1 ./mpi_hello_max_string
 

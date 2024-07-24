@@ -1,17 +1,17 @@
 FLAGS=-g -Wall -std=c99
 
-EXES=mpi_hello mpi_hello1 mpi_hello2 mpi_vector mpi_vector_ndiv mpi_prefix_sum
+EXES=mpi_hello mpi_hello_max_string mpi_hello_without_eof mpi_vector mpi_vector_ndiv mpi_prefix_sum mpi_odd_even_time
 
 all: $(EXES)
 
 mpi_hello: 
 	mpicc $(FLAGS) -o mpi_hello mpi_hello.c
 
-mpi_hello1: 
-	mpicc $(FLAGS) -o mpi_hello1 mpi_hello1.c
+mpi_hello_max_string: 
+	mpicc $(FLAGS) -o mpi_hello_max_string mpi_hello_max_string.c
 
-mpi_hello2: 
-	mpicc $(FLAGS) -o mpi_hello2 mpi_hello2.c
+mpi_hello_without_eof: 
+	mpicc $(FLAGS) -o mpi_hello_without_eof mpi_hello_without_eof.c
 
 mpi_vector:
 	mpicc $(FLAGS) -o mpi_vector mpi_vector.c
@@ -21,6 +21,9 @@ mpi_vector_ndiv:
 
 mpi_prefix_sum:
 	mpicc $(FLAGS) -o mpi_prefix_sum mpi_prefix_sum.c
+
+mpi_odd_even_time:
+	mpicc $(FLAGS) -o mpi_odd_even_time mpi_odd_even_time.c
 
 clean:
 	rm $(EXES)

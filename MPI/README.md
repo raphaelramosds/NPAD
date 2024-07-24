@@ -1,3 +1,9 @@
+# Credenciais NPAD
+
+```
+ssh -p4422 rrdsilva@sc2.npad.ufrn.br
+```
+
 # MPI_Recv/MPI_Send versus MPI_Bcast
 
 Implementação de envio de mensagens com MPI_Recv e MPI_Send são menos eficientes: um único processo envia para os outros. Logo, a complexidade é O(n)

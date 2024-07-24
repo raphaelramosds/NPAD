@@ -1,10 +1,12 @@
 #!/bin/bash
 #SBATCH --partition=intel-128
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=4
+#SBATCH --ntasks-per-node=16
 #SBATCH --cpus-per-task=1
 #SBATCH --time=0-0:5
 #SBATCH --job-name=odd_even
-#SBATCH --output=odd_even-%j.out
+#SBATCH --output=odd_even_time-%j.out
 
-srun mpi_odd_even g 100
+N=1000000
+
+srun submit_odd_even_time g $N
