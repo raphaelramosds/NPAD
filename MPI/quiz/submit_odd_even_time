@@ -1,14 +1,16 @@
 #!/bin/bash
 #SBATCH --partition=intel-128
 #SBATCH --nodes=1
-#SBATCH --ntasks-per-node=16
+#SBATCH --ntasks-per-node=32
 #SBATCH --cpus-per-task=1
 #SBATCH --time=0-0:5
 #SBATCH --job-name=odd_even
-#SBATCH --output=odd_even_time-%j.out
+#SBATCH --output=odd_even_time_%j.out
 #SBATCH --array=0-4
 
 ARGS=($(<inputs.txt))
 ARG=${ARGS[${SLURM_ARRAY_TASK_ID}]}
 
-mpirun mpi_odd_even_time g $ARG
+for p in 1 4 8 16 32; do
+	mpirun -np $p mpi_odd_even_time g $ARG
+done

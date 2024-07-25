@@ -97,7 +97,7 @@ int main(int argc, char* argv[]) {
 #  endif
 
    if (my_rank == 0)
-      printf("Elapsed time (p=%d, n=%d) = %e\n", p, global_n, elapsed);
+      printf("%d,%d,%f\n", p, global_n, elapsed);
 
    // Print_global_list(local_A, local_n, my_rank, p, comm);
 
