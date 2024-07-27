@@ -56,3 +56,7 @@ MPI_Type_vector(3, 1, 3, MPI_INT, &column_type)
 ```
 
 Será criada uma estrutura com 3 blocos, cada um contendo 1 elemento e a distância entre o começo de cada boco é 3
+
+### Questão 8 da lista
+
+Nessa questão, usamos o MPI_Type_vector para criar o tipo de dado coluna de uma matriz de doubles (datatype MPI_DOUBLE) com dimensões m linhas e n colunas. Assim, podemos extrair as suas colunas seguinte o raciocínio: a primeira coluna possui block_count = m elementos, com tamanho block_length = 1 e separados por um stride = n-1 elementos; a segunda coluna possui um stride = n-2, e assim sucessivamente

@@ -30,6 +30,8 @@
 /* We'll be using MPI routines, definitions, etc. */
 #include <mpi.h>
 
+#define BUFFER_SIZE 100
+
 /* Build a derived datatype for distributing the input data */
 void Build_mpi_type(double* a_p, double* b_p, int* n_p,
       MPI_Datatype* input_mpi_t_p);
@@ -135,17 +137,27 @@ void Get_input(
       double*  a_p      /* out */, 
       double*  b_p      /* out */,
       int*     n_p      /* out */) {
-   MPI_Datatype input_mpi_t;
 
-   Build_mpi_type(a_p, b_p, n_p, &input_mpi_t);
+   MPI_Comm comm = MPI_COMM_WORLD;
+   char pack_buf[BUFFER_SIZE];
+   int position = 0;
 
    if (my_rank == 0) {
       printf("Enter a, b, and n\n");
       scanf("%lf %lf %d", a_p, b_p, n_p);
-   } 
-   MPI_Bcast(a_p, 1, input_mpi_t, 0, MPI_COMM_WORLD);
 
-   MPI_Type_free(&input_mpi_t);
+      MPI_Pack(a_p, 1, MPI_DOUBLE, pack_buf, BUFFER_SIZE, &position, comm);
+      MPI_Pack(b_p, 1, MPI_DOUBLE, pack_buf, BUFFER_SIZE, &position, comm);
+      MPI_Pack(n_p, 1, MPI_INT, pack_buf, BUFFER_SIZE, &position, comm);
+      MPI_Bcast(pack_buf, BUFFER_SIZE, MPI_PACKED, 0, comm);
+   } else {
+      MPI_Bcast(pack_buf, BUFFER_SIZE, MPI_PACKED, 0, comm);  
+      MPI_Unpack(pack_buf, BUFFER_SIZE, &position, a_p, 1, MPI_DOUBLE, comm);
+      MPI_Unpack(pack_buf, BUFFER_SIZE, &position, b_p, 1, MPI_DOUBLE, comm);
+      MPI_Unpack(pack_buf, BUFFER_SIZE, &position, n_p, 1, MPI_INT, comm);
+   }
+
+
 }  /* Get_input */
 
 /*------------------------------------------------------------------
