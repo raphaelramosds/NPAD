@@ -49,7 +49,7 @@ void Read_matrix(char prompt[], double* local_A, int n, int my_rank,
         /* Number of elements by block */
         for (i = n; i > 0; i--) block_lengths[n - i] = i;
 
-        /* Distances between the first block and the others: (# lines)*i + i */
+        /* Indexes of the first elements in each line of the upper triangular matrix: (# lines)*i + i */
         for (i = 0; i < n; i++) displacements[i] = n * i + i;
 
         printf("Enter the matrix %s\n", prompt);

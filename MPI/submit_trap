@@ -4,14 +4,14 @@
 #SBATCH --ntasks-per-node=2
 #SBATCH --cpus-per-task=1
 #SBATCH --time=0-0:5
-#SBATCH --job-name=trap1
-#SBATCH --output=trap1-%j.out
+#SBATCH --job-name=trap
+#SBATCH --output=trap-%j.out
 
 # Run the original version
-time srun mpi_trap1
+time srun mpi_trap
 
 # Run the version with ANY_SOURCE tag
-time srun mpi_trap1_any_source
+time srun mpi_trap_any_source
 
 # Note: 
 #   The second version run faster because proccess 0
