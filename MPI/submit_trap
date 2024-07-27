@@ -11,7 +11,7 @@
 time srun mpi_trap1
 
 # Run the version with ANY_SOURCE tag
-time srun mpi_trap1_as
+time srun mpi_trap1_any_source
 
 # Note: 
 #   The second version run faster because proccess 0
