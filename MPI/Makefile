@@ -1,6 +1,6 @@
 FLAGS=-g -Wall -std=c99
 
-EXES=mpi_hello mpi_trap1 mpi_trap1_any_source mpi_type_vect mpi_odd_even
+EXES=mpi_hello mpi_trap1 mpi_trap1_any_source mpi_type_vect mpi_odd_even mpi_mat_triangle
 
 all: $(EXES)
 
@@ -18,6 +18,9 @@ mpi_type_vect:
 
 mpi_odd_even:
 	mpicc $(FLAGS) -o mpi_odd_even mpi_odd_even.c
+
+mpi_mat_triangle:
+	mpicc $(FLAGS) -o mpi_mat_triangle mpi_mat_triangle.c
 
 clean:
 	rm $(EXES) *.out

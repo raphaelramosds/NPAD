@@ -22,18 +22,18 @@ int main(void) {
 
     MPI_Scan(x, partial, count, MPI_INT, MPI_SUM, comm);
 
-    // printf("Process %d: \n", my_rank);
-    // printf("x = ");
-    // for (i = 0; i < count; i++) {
-    //     printf("%d ", x[i]);
-    // }
-    // printf("\n");
+    printf("Process %d: \n", my_rank);
+    printf("x = ");
+    for (i = 0; i < count; i++) {
+        printf("%d ", x[i]);
+    }
+    printf("\n");
 
-    // printf("partial = ");
-    // for (i = 0; i < count; i++) {
-    //     printf("%d ", partial[i]);
-    // }
-    // printf("\n");
+    printf("partial = ");
+    for (i = 0; i < count; i++) {
+        printf("%d ", partial[i]);
+    }
+    printf("\n");
 
     free(x);
     free(partial);
