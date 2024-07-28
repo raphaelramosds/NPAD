@@ -9,8 +9,11 @@
 #SBATCH --array=0-4
 
 ARGS=($(<inputs.txt))
+
 ARG=${ARGS[${SLURM_ARRAY_TASK_ID}]}
 
-for p in 1 4 8 16 32; do
+PROCESSES=(1 2 4 8 16 32)
+
+for p in "${PROCESSES[@]}"; do
 	mpirun -np $p mpi_odd_even_time g $ARG
 done
