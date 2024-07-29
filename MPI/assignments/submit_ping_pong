@@ -7,5 +7,14 @@
 #SBATCH --time=0-0:5
 #SBATCH --job-name=ping_pong
 #SBATCH --output=ping_pong_%j.out
+#SBATCH --array=0-1
 
-mpirun -np 2 mpi_pp_clock
+if [SLURM_ARRAY_TASK_ID -eq 0]
+then
+    echo "With clock:"
+    mpirun mpi_pp_clock
+else
+    echo "With Wtime:"
+    mpirun mpi_pp_wtime
+done
+
