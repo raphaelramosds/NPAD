@@ -32,7 +32,7 @@ mpi_trap_pack:
 	mpicc $(FLAGS) -o mpi_trap_pack mpi_trap_pack.c
 
 mpi_pp_clock:
-	mpicc $(FLAGS) -o mpi_pp_clock mpi_pp_clock.c
+	mpicc -DWTIME $(FLAGS) -o mpi_pp_clock mpi_pp_clock.c
 
 clean:
 	rm $(EXES) *.out *.err

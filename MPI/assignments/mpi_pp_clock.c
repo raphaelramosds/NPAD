@@ -9,8 +9,13 @@ int main(void) {
     int response = 0;
     int comm_sz;
     int my_rank;
+    double total;
+#   ifdef WTIME
+    double start, end;
+#   else
     clock_t start_t, end_t;
-    double total_t;
+#   endif
+
     MPI_Comm comm = MPI_COMM_WORLD;
 
     /* Start up MPI */
@@ -30,7 +35,11 @@ int main(void) {
 
     while (response < LIMIT) {
         if (my_rank == 0) {
+            # if WTIME
+            start = MPI_Wtime();
+            # else
             start_t = clock();
+            # endif           
 
             // printf("[%d] Sending to process 1\n", response);
             MPI_Send(&response, 1, MPI_INT, 1, 0, comm);
@@ -38,10 +47,15 @@ int main(void) {
             MPI_Recv(&response, 1, MPI_INT, 1, 1, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 1\n", response);
 
+            #if WTIME
+            end = MPI_Wtime();
+            total = end - start;
+            # else
             end_t = clock();
-            total_t = (double) (end_t - start_t) / CLOCKS_PER_SEC;
+            total = (double) (end_t - start_t) / CLOCKS_PER_SEC;
+            # endif
 
-            printf("Elapsed (%dth ping-pong): %fs\n", response, total_t);
+            printf("Elapsed (%dth ping-pong): %fs\n", response, total);
 
         } else {
             MPI_Recv(&response, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
