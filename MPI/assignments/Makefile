@@ -1,6 +1,6 @@
 FLAGS=-g -Wall -std=c99
 
-EXES=mpi_hello mpi_hello_max_string mpi_hello_without_eof mpi_vector mpi_vector_ndiv mpi_prefix_sum mpi_odd_even_time mpi_type_indexed mpi_trap_pack
+EXES=mpi_hello mpi_hello_max_string mpi_hello_without_eof mpi_vector mpi_vector_ndiv mpi_prefix_sum mpi_odd_even_time mpi_type_indexed mpi_trap_pack mpi_pp_clock
 
 all: $(EXES)
 
@@ -30,6 +30,9 @@ mpi_type_indexed:
 
 mpi_trap_pack:
 	mpicc $(FLAGS) -o mpi_trap_pack mpi_trap_pack.c
+
+mpi_pp_clock:
+	mpicc $(FLAGS) -o mpi_pp_clock mpi_pp_clock.c
 
 clean:
 	rm $(EXES) *.out *.err
