@@ -9,12 +9,11 @@
 #SBATCH --output=ping_pong_%j.out
 #SBATCH --array=0-1
 
-if [SLURM_ARRAY_TASK_ID -eq 0]
+if [ "${SLURM_ARRAY_TASK_ID}" -eq 0 ] 
 then
-    echo "With clock:"
-    mpirun mpi_pp_clock
+	echo "Measuring with clock"
+	mpirun mpi_pp_clock
 else
-    echo "With Wtime:"
-    mpirun mpi_pp_wtime
-done
-
+	echo "Measuring with wtime"
+	mpirun mpi_pp_wtime
+fi
