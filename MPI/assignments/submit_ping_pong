@@ -1,9 +1,9 @@
 #!/bin/bash
 
 #SBATCH --partition=intel-128
-#SBATCH --nodes=1
-#SBATCH --ntasks-per-node=2
-#SBATCH --cpus-per-task=2
+#SBATCH --nodes=2
+#SBATCH --ntasks-per-node=1
+#SBATCH --cpus-per-task=1
 #SBATCH --time=0-0:5
 #SBATCH --job-name=ping_pong
 #SBATCH --output=ping_pong_%j.out
