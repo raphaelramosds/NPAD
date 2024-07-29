@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-const int LIMIT = 50;
+const int LIMIT = 500;
 
 int main(void) {
     int response = 0;
@@ -37,8 +37,12 @@ int main(void) {
 
             end_t = clock();
             total_t = (double) (end_t - start_t) / CLOCKS_PER_SEC;
-            
-            printf("Elapsed (%d ping-pong): %fs\n", response, total_t);
+
+            if (total_t > 0) {
+                printf("Elapsed (%d ping-pong): %fs\n", response, total_t);
+                MPI_Abort(comm, 1);
+            }
+
         } else {
             MPI_Recv(&response, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
             MPI_Send(&response, 1, MPI_INT, 0, 1, comm);
