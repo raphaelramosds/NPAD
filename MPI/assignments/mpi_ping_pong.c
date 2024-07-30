@@ -3,16 +3,14 @@
 #include <string.h>
 #include <time.h>
 
-const int LIMIT = 1000;
-
-const int MAX_STRING = 100;
+const int LIMIT = 10000;
 
 int main(void) {
-    char msg[MAX_STRING];
     int it = 0;
+	
     int comm_sz;
     int my_rank;
-    double total;
+    double total = 0.0;
 #ifdef WTIME
     double start, end;
 #else
@@ -36,8 +34,6 @@ int main(void) {
     /* Get my rank among all the processes */
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    sprintf(msg, "Greeting from process %d", my_rank);
-
     while (it < LIMIT) {
         if (my_rank == 0) {
 #if WTIME
@@ -48,28 +44,28 @@ int main(void) {
 
             // printf("[%d] Sending to process 1\n", it);
             // MPI_Send(&it, 1, MPI_INT, 1, 0, comm);
-            MPI_Send(msg, strlen(msg) + 1, MPI_CHAR, 1, 0, comm);
-            MPI_Recv(msg, MAX_STRING, MPI_CHAR, 1, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Send(NULL, 0, MPI_INT, 1, 0, comm);
+            MPI_Recv(NULL, 0, MPI_INT, 1, 0, comm, MPI_STATUS_IGNORE);
 
             // MPI_Recv(&it, 1, MPI_INT, 1, 1, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 1\n", it);
 
 #if WTIME
             end = MPI_Wtime();
-            total = end - start;
+            total += end - start;
 #else
             end_t = clock();
-            total = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+            total += (double)(end_t - start_t) / CLOCKS_PER_SEC;
 #endif
 
-            printf("%dth ping-pong = %.3es\n", it, total);
+            //printf("%dth ping-pong = %.3es\n", it, total);
 
         } else {
             // MPI_Recv(&it, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 0\n", it);
 
-            MPI_Recv(msg, MAX_STRING, MPI_CHAR, 0, 0, comm, MPI_STATUS_IGNORE);
-            MPI_Send(msg, strlen(msg) + 1, MPI_CHAR, 0, 0, comm);
+            MPI_Recv(NULL, 0, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Send(NULL, 0, MPI_INT, 0, 0, comm);
 
             // printf("[%d] Sending to process 0\n", it);
             // MPI_Send(&it, 1, MPI_INT, 0, 1, comm);
@@ -77,6 +73,8 @@ int main(void) {
 
         it++;
     }
+
+	if (my_rank==0) printf("Average = %.3es", total/((double)it));
 
     MPI_Finalize();
 
