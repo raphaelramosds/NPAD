@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-const int LIMIT = 500;
+const int LIMIT = 1000;
 
 const int MAX_STRING = 100;
 
