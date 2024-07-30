@@ -3,7 +3,7 @@
 #include <string.h>
 #include <time.h>
 
-const int LIMIT = 10000;
+const int LIMIT = 1000;
 
 int main(void) {
     int it = 0;
@@ -17,6 +17,7 @@ int main(void) {
     clock_t start_t, end_t;
 #endif
 
+    MPI_Status status;
     MPI_Comm comm = MPI_COMM_WORLD;
 
     /* Start up MPI */
@@ -45,17 +46,17 @@ int main(void) {
             // printf("[%d] Sending to process 1\n", it);
             // MPI_Send(&it, 1, MPI_INT, 1, 0, comm);
             MPI_Send(NULL, 0, MPI_INT, 1, 0, comm);
-            MPI_Recv(NULL, 0, MPI_INT, 1, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Recv(NULL, 0, MPI_INT, 1, 0, comm, &status);
 
             // MPI_Recv(&it, 1, MPI_INT, 1, 1, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 1\n", it);
 
 #if WTIME
             end = MPI_Wtime();
-            total += end - start;
+            total += it > 0 ? end - start : 0.0;
 #else
             end_t = clock();
-            total += (double)(end_t - start_t) / CLOCKS_PER_SEC;
+            total += it > 0 ? (double)(end_t - start_t) / CLOCKS_PER_SEC : 0.0;
 #endif
 
             //printf("%dth ping-pong = %.3es\n", it, total);
@@ -64,7 +65,7 @@ int main(void) {
             // MPI_Recv(&it, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 0\n", it);
 
-            MPI_Recv(NULL, 0, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Recv(NULL, 0, MPI_INT, 0, 0, comm, &status);
             MPI_Send(NULL, 0, MPI_INT, 0, 0, comm);
 
             // printf("[%d] Sending to process 0\n", it);
