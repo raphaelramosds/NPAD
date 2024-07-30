@@ -3,18 +3,21 @@
 #include <string.h>
 #include <time.h>
 
-const int LIMIT = 5;
+const int LIMIT = 500;
+
+const int MAX_STRING = 100;
 
 int main(void) {
-    int response = 0;
+    char msg[MAX_STRING];
+    int it = 0;
     int comm_sz;
     int my_rank;
     double total;
-#   ifdef WTIME
+#ifdef WTIME
     double start, end;
-#   else
+#else
     clock_t start_t, end_t;
-#   endif
+#endif
 
     MPI_Comm comm = MPI_COMM_WORLD;
 
@@ -33,41 +36,48 @@ int main(void) {
     /* Get my rank among all the processes */
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    while (response < LIMIT) {
+    sprintf(msg, "Greeting from process %d", my_rank);
+
+    while (it < LIMIT) {
         if (my_rank == 0) {
-            # if WTIME
+#if WTIME
             start = MPI_Wtime();
-            # else
+#else
             start_t = clock();
-            # endif           
+#endif
 
-            // printf("[%d] Sending to process 1\n", response);
-            MPI_Send(&response, 1, MPI_INT, 1, 0, comm);
+            // printf("[%d] Sending to process 1\n", it);
+            // MPI_Send(&it, 1, MPI_INT, 1, 0, comm);
+            MPI_Send(msg, strlen(msg) + 1, MPI_CHAR, 1, 0, comm);
+            MPI_Recv(msg, MAX_STRING, MPI_CHAR, 1, 0, comm, MPI_STATUS_IGNORE);
 
-            MPI_Recv(&response, 1, MPI_INT, 1, 1, comm, MPI_STATUS_IGNORE);
-            // printf("[%d] Received from process 1\n", response);
+            // MPI_Recv(&it, 1, MPI_INT, 1, 1, comm, MPI_STATUS_IGNORE);
+            // printf("[%d] Received from process 1\n", it);
 
-            #if WTIME
+#if WTIME
             end = MPI_Wtime();
             total = end - start;
-            # else
+#else
             end_t = clock();
-            total = (double) (end_t - start_t) / CLOCKS_PER_SEC;
-            # endif
+            total = (double)(end_t - start_t) / CLOCKS_PER_SEC;
+#endif
 
-            printf("Elapsed (%dth ping-pong): %fs\n", response, total);
+            printf("%dth ping-pong = %.3es\n", it, total);
 
         } else {
-            MPI_Recv(&response, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
-            // printf("[%d] Received from process 0\n", response);
+            // MPI_Recv(&it, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
+            // printf("[%d] Received from process 0\n", it);
 
-            // printf("[%d] Sending to process 0\n", response);
-            MPI_Send(&response, 1, MPI_INT, 0, 1, comm);
+            MPI_Recv(msg, MAX_STRING, MPI_CHAR, 0, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Send(msg, strlen(msg) + 1, MPI_CHAR, 0, 0, comm);
+
+            // printf("[%d] Sending to process 0\n", it);
+            // MPI_Send(&it, 1, MPI_INT, 0, 1, comm);
         }
 
-        response++;
+        it++;
     }
-    
+
     MPI_Finalize();
 
     return 0;
