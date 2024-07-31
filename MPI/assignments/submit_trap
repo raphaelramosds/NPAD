@@ -1,0 +1,22 @@
+#!/bin/bash
+#SBATCH --partition=intel-128
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=32
+#SBATCH --cpus-per-task=1
+#SBATCH --time=0-0:5
+#SBATCH --job-name=trap
+#SBATCH --output=trap_time_%j.out
+#SBATCH --array=0-4
+
+ARGS=($(<inputs.txt))
+
+ARG=${ARGS[${SLURM_ARRAY_TASK_ID}]}
+
+PROCESSES=(1 2 4 8 16 32)
+
+FACTOR=1000000000
+
+for p in "${ARGS[@]}"; do
+	echo "Running $(($ARG * $FACTOR)) with $p processes"
+	# mpirun -np $p mpi_trap_time $ARG
+done

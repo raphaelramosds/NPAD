@@ -39,12 +39,23 @@ double Trap(double left_endpt, double right_endpt, int trap_count,
 /* Function we're integrating */
 double f(double x);
 
-int main(void) {
-    int my_rank, comm_sz, n, local_n;
-    double a, b, h, local_a, local_b;
-    double local_int, total_int;
+int main(int argc, char* argv[]) {
+    /* Constants */
+    int n;
+    double a = 1.0, b = 100.0;
 
+    /* Variables */
+    int my_rank, comm_sz, local_n;
+    double h, local_a, local_b;
+    double local_int, total_int;
     double start, finish, loc_elapsed, elapsed;
+
+    /* Get the constants */
+    if (argc != 2) {
+        fprintf(stderr, "usage: mpiexec -n <p> ./mpi_trap_time <n>");
+        fflush(stderr);
+    }
+    n = atoi(argv[1]);
 
     /* Let the system do what it needs to start up MPI */
     MPI_Init(NULL, NULL);
@@ -55,7 +66,7 @@ int main(void) {
     /* Find out how many processes are being used */
     MPI_Comm_size(MPI_COMM_WORLD, &comm_sz);
 
-    Get_input(my_rank, comm_sz, &a, &b, &n);
+    // Get_input(my_rank, comm_sz, &a, &b, &n);
 
     h = (b - a) / n;       /* h is the same for all processes */
     local_n = n / comm_sz; /* So is the number of trapezoids  */
