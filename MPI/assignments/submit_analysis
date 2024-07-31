@@ -9,8 +9,8 @@
 #SBATCH --array=0-5
 
 # Program name and its flags
-PROGRAM=mpi_odd_even_time
-FLAGS=g
+PROGRAM=mpi_trap_time
+FLAGS=
 
 # Inputs
 ARGS=($(<inputs.txt))
@@ -22,7 +22,7 @@ FACTOR=1000000
 # How many times the program will be executed
 COUNT=5
 
-for p in "${PROCESSES[@]}"; do
+for p in "${ARGS[@]}"; do
 	for i in $(seq $COUNT); do
 		mpirun -np $p $PROGRAM $FLAGS $(($ARG * $FACTOR))
 	done
