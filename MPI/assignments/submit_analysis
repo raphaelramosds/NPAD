@@ -1,0 +1,29 @@
+#!/bin/bash
+#SBATCH --partition=intel-128
+#SBATCH --nodes=1
+#SBATCH --ntasks-per-node=32
+#SBATCH --cpus-per-task=1
+#SBATCH --time=0-0:5
+#SBATCH --job-name=analysis
+#SBATCH --output=analysis_%j.out
+#SBATCH --array=0-5
+
+# Program name and its flags
+PROGRAM=mpi_odd_even_time
+FLAGS=g
+
+# Inputs
+ARGS=($(<inputs.txt))
+ARG=${ARGS[${SLURM_ARRAY_TASK_ID}]}
+
+# Factor of the problem size
+FACTOR=1000000
+
+# How many times the program will be executed
+COUNT=5
+
+for p in "${PROCESSES[@]}"; do
+	for i in $(seq $COUNT); do
+		mpirun -np $p $PROGRAM $FLAGS $(($ARG * $FACTOR))
+	done
+done
