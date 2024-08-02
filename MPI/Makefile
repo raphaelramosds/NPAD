@@ -1,11 +1,8 @@
-FLAGS=-g -Wall -std=c99
+FLAGS=-g -Wall -std=c99 -DDEBUG
 
-EXES=mpi_hello mpi_trap mpi_trap_any_source mpi_type_vect mpi_odd_even mpi_mat_triangle mpi_pack
+EXES=mpi_trap mpi_trap_any_source mpi_type_vect mpi_odd_even mpi_mat_triangle mpi_pack
 
 all: $(EXES)
-
-mpi_hello: 
-	mpicc $(FLAGS) -o mpi_hello mpi_hello.c
 
 mpi_trap:
 	mpicc $(FLAGS) -o mpi_trap mpi_trap.c

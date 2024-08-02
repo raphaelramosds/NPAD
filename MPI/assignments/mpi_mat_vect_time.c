@@ -69,7 +69,7 @@ int main(void) {
 #  ifdef DEBUG
    Print_matrix("A", local_A, m, local_m, n, my_rank, comm);
 #  endif
-// Read_vector("x", local_x, n, local_n, my_rank, comm);
+   // Read_vector("x", local_x, n, local_n, my_rank, comm);
    Generate_vector(local_x, local_n);
 #  ifdef DEBUG
    Print_vector("x", local_x, n, local_n, my_rank, comm);
