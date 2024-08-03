@@ -9,21 +9,23 @@
 #SBATCH --array=0-5
 
 # Program name and its flags
-PROGRAM=mpi_trap_time
+PROGRAM=mpi_mat_vect_lines
 FLAGS=
 
 # Inputs
-ARGS=($(<inputs.txt))
+ARGS=($(<mat.txt))
 ARG=${ARGS[${SLURM_ARRAY_TASK_ID}]}
 
 # Factor of the problem size
-FACTOR=1000000
+FACTOR=100
 
 # How many times the program will be executed
 COUNT=5
 
-for p in "${ARGS[@]}"; do
+PROCESSES=(1 2 4 8 16 32)
+
+for p in "${PROCESSES[@]}"; do
 	for i in $(seq $COUNT); do
-		mpirun -np $p $PROGRAM $FLAGS $(($ARG * $FACTOR))
+		mpirun -np $p $PROGRAM $FLAGS $(($ARG * $FACTOR)) $(($ARG))
 	done
 done
