@@ -61,7 +61,8 @@ int main(int argc, int** argv) {
     MPI_Comm_size(comm, &comm_sz);
     MPI_Comm_rank(comm, &my_rank);
 
-    m = atoi(argv[1]); n = atoi(argv[2]);
+    m = atoi(argv[1]);
+    n = atoi(argv[2]);
 
     Get_dims(&m, &local_m, &n, &local_n, my_rank, comm_sz, comm);
     Allocate_arrays(&local_A, &local_x, &y, &local_y, m, local_m, n, local_n,
@@ -105,8 +106,7 @@ int main(int argc, int** argv) {
     }
 #endif
 
-    if (my_rank == 0) 
-        printf("%d,%d,%f\n", comm_sz, m, elapsed);
+    if (my_rank == 0) printf("%d,%d,%f\n", comm_sz, m, elapsed);
 
     free(local_A);
     free(local_x);
@@ -172,14 +172,15 @@ void Allocate_arrays(double** local_A_pp /* out */,
                      int local_n /* in  */, MPI_Comm comm /* in  */) {
     int local_ok = 1;
 
-    /* (m, local_n) because processes have all lines of A and and part of its
-     * columns */
+    /* Shape (m,local_n) because processes have all lines of A and and part of
+     * its columns */
     *local_A_pp = malloc(m * local_n * sizeof(double));
 
-    /* (1, local_n) as this program join all components of x with allgather */
+    /* Shape (1,local_n) as the vector x is block partitioned between processes
+     */
     *local_x_pp = malloc(local_n * sizeof(double));
 
-    /* (1, m) since processes must have a copy of all components of y */
+    /* Shape (1, m) since processes must have a copy of all components of y */
     *y_pp = malloc(m * sizeof(double));
     *local_y_pp = malloc(m * sizeof(double));
 
