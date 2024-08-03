@@ -47,7 +47,7 @@ void Mat_vect_mult(double local_A[], double local_x[],
       MPI_Comm comm);
 
 /*-------------------------------------------------------------------*/
-int main(void) {
+int main(int argc, char** argv) {
    double* local_A;
    double* local_x;
    double* local_y;
@@ -60,6 +60,8 @@ int main(void) {
    comm = MPI_COMM_WORLD;
    MPI_Comm_size(comm, &comm_sz);
    MPI_Comm_rank(comm, &my_rank);
+
+   m = atoi(argv[1]); n = atoi(argv[2]);
 
    Get_dims(&m, &local_m, &n, &local_n, my_rank, comm_sz, comm);
    Allocate_arrays(&local_A, &local_x, &local_y, local_m, n, local_n, comm);
@@ -87,7 +89,7 @@ int main(void) {
 #  endif
 
    if (my_rank == 0)
-      printf("Elapsed time = %e\n", elapsed);
+      printf("%d,%d,%f\n", comm_sz, m, elapsed);
 
    free(local_A);
    free(local_x);
@@ -131,12 +133,12 @@ void Get_dims(
       MPI_Comm  comm       /* in  */) {
    int local_ok = 1;
 
-   if (my_rank == 0) {
-      printf("Enter the number of rows\n");
-      scanf("%d", m_p);
-      printf("Enter the number of columns\n");
-      scanf("%d", n_p);
-   }
+   // if (my_rank == 0) {
+   //    printf("Enter the number of rows\n");
+   //    scanf("%d", m_p);
+   //    printf("Enter the number of columns\n");
+   //    scanf("%d", n_p);
+   // }
    MPI_Bcast(m_p, 1, MPI_INT, 0, comm);
    MPI_Bcast(n_p, 1, MPI_INT, 0, comm);
    if (*m_p <= 0 || *n_p <= 0 || *m_p % comm_sz != 0 

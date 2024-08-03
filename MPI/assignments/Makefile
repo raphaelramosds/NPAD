@@ -1,6 +1,6 @@
 FLAGS=-g -Wall -std=c99
 
-EXES=mpi_hello mpi_hello_max_string mpi_hello_without_eof mpi_vector mpi_vector_ndiv mpi_prefix_sum mpi_odd_even_time mpi_type_indexed mpi_trap_pack mpi_pp_clock mpi_pp_wtime mpi_trap_time mpi_mat_vect_cols mpi_mat_vect_time
+EXES=mpi_hello mpi_hello_max_string mpi_hello_without_eof mpi_vector mpi_vector_ndiv mpi_prefix_sum mpi_odd_even_time mpi_type_indexed mpi_trap_pack mpi_pp_clock mpi_pp_wtime mpi_trap_time mpi_mat_vect_cols mpi_mat_vect_lines
 
 all: $(EXES)
 
@@ -41,8 +41,8 @@ mpi_trap_time:
 mpi_mat_vect_cols:
 	mpicc $(FLAGS) -o mpi_mat_vect_cols mpi_mat_vect_cols.c
 
-mpi_mat_vect_time:
-	mpicc $(FLAGS) -o mpi_mat_vect_time mpi_mat_vect_time.c
+mpi_mat_vect_lines:
+	mpicc $(FLAGS) -o mpi_mat_vect_lines mpi_mat_vect_lines.c
 
 clean:
 	rm $(EXES) *.out *.err

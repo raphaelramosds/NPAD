@@ -46,7 +46,7 @@ void Mat_vect_mult(double local_A[], double local_x[], double y[],
                    MPI_Comm comm);
 
 /*-------------------------------------------------------------------*/
-int main(void) {
+int main(int argc, int** argv) {
     double* y;
     double* local_A;
     double* local_x;
@@ -60,6 +60,8 @@ int main(void) {
     comm = MPI_COMM_WORLD;
     MPI_Comm_size(comm, &comm_sz);
     MPI_Comm_rank(comm, &my_rank);
+
+    m = atoi(argv[1]); n = atoi(argv[2]);
 
     Get_dims(&m, &local_m, &n, &local_n, my_rank, comm_sz, comm);
     Allocate_arrays(&local_A, &local_x, &y, &local_y, m, local_m, n, local_n,
@@ -75,8 +77,8 @@ int main(void) {
 #ifdef DEBUG
     int local_i;
     printf("local_a(%d) =", my_rank);
-    for (local_i=0; local_i < local_n*m; local_i++) {
-       printf("%f ", local_A[local_i]);
+    for (local_i = 0; local_i < local_n * m; local_i++) {
+        printf("%f ", local_A[local_i]);
     }
     printf("\n");
 #endif
@@ -90,21 +92,21 @@ int main(void) {
     start = MPI_Wtime();
     Mat_vect_mult(local_A, local_x, y, local_y, m, local_m, n, local_n, comm);
     finish = MPI_Wtime();
-    loc_elapsed = finish-start;
+    loc_elapsed = finish - start;
     MPI_Reduce(&loc_elapsed, &elapsed, 1, MPI_DOUBLE, MPI_MAX, 0, comm);
 
 #ifdef DEBUG
     // Print_vector("y", local_y, m, local_m, my_rank, comm);
     if (my_rank == 0) {
-      int local_i;
-      printf("y=");
-      for (local_i = 0; local_i < m; local_i++) printf("%f ", y[local_i]);
-      printf("\n");
+        int local_i;
+        printf("y=");
+        for (local_i = 0; local_i < m; local_i++) printf("%f ", y[local_i]);
+        printf("\n");
     }
 #endif
 
-    if (my_rank == 0)
-       printf("Elapsed time = %e\n", elapsed);
+    if (my_rank == 0) 
+        printf("%d,%d,%f\n", comm_sz, m, elapsed);
 
     free(local_A);
     free(local_x);
@@ -137,12 +139,12 @@ void Get_dims(int* m_p /* out */, int* local_m_p /* out */, int* n_p /* out */,
               int comm_sz /* in  */, MPI_Comm comm /* in  */) {
     int local_ok = 1;
 
-    if (my_rank == 0) {
-        printf("Enter the number of rows\n");
-        scanf("%d", m_p);
-        printf("Enter the number of columns\n");
-        scanf("%d", n_p);
-    }
+    // if (my_rank == 0) {
+    //     printf("Enter the number of rows\n");
+    //     scanf("%d", m_p);
+    //     printf("Enter the number of columns\n");
+    //     scanf("%d", n_p);
+    // }
     MPI_Bcast(m_p, 1, MPI_INT, 0, comm);
     MPI_Bcast(n_p, 1, MPI_INT, 0, comm);
     if (*m_p <= 0 || *n_p <= 0 || *m_p % comm_sz != 0 || *n_p % comm_sz != 0)
@@ -209,11 +211,11 @@ void Read_matrix(char prompt[] /* in  */, double local_A[] /* out */,
         if (A == NULL) local_ok = 0;
         Check_for_error(local_ok, "Read_matrix",
                         "Can't allocate temporary matrix", comm);
-        printf("Enter the matrix %s\n", prompt);
+        // printf("Enter the matrix %s\n", prompt);
         for (i = 0; i < m; i++)
             for (j = 0; j < n; j++)
                 A[i * n + j] = ((double)random()) / ((double)RAND_MAX);
-            //    scanf("%lf", &A[i*n+j]);
+        //    scanf("%lf", &A[i*n+j]);
 
         // MPI_Scatter(A, local_m*n, MPI_DOUBLE,
         //       local_A, local_m*n, MPI_DOUBLE, 0, comm);
@@ -351,7 +353,8 @@ void Mat_vect_mult(double local_A[] /* in  */, double local_x[] /* in  */,
 
     for (i = 0; i < m; i++) local_y[i] = 0.0;
 
-    /* The product (m elements of a column) and (1 component of x) fills (m* coordinates of y) */
+    /* The product (m elements of a column) and (1 component of x) fills (m*
+     * coordinates of y) */
     for (local_j = 0; local_j < local_n; local_j++) {
         for (i = 0; i < m; i++)
             local_y[i] += local_A[local_j * m + i] * local_x[local_j];
