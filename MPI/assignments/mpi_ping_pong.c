@@ -4,10 +4,10 @@
 #include <time.h>
 
 const int limit = 1000;
-const int size = 1000;
+const int size = 32768;
 
 int main(void) {
-    double buffer[size];
+    char buffer[size];
     
     int it = 0;
 	
@@ -39,7 +39,7 @@ int main(void) {
 
     while (it < limit) {
         if (my_rank == 0) {
-            for (int i=0; i < size; i++) buffer[i] = i;
+            for (int i=0; i < size - 1; i++) buffer[i] = 'A';
 
 #if WTIME
             start = MPI_Wtime();
@@ -49,8 +49,8 @@ int main(void) {
 
             // printf("[%d] Sending to process 1\n", it);
             // MPI_Send(&it, 1, MPI_INT, 1, 0, comm);
-            MPI_Send(buffer, size, MPI_DOUBLE, 1, 0, comm);
-            MPI_Recv(buffer, size, MPI_DOUBLE, 1, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Send(buffer, strlen(buffer) + 1, MPI_CHAR, 1, 0, comm);
+            MPI_Recv(buffer, size, MPI_CHAR, 1, 0, comm, MPI_STATUS_IGNORE);
 
             // MPI_Recv(&it, 1, MPI_INT, 1, 1, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 1\n", it);
@@ -69,8 +69,8 @@ int main(void) {
             // MPI_Recv(&it, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 0\n", it);
 
-            MPI_Recv(buffer, size, MPI_DOUBLE, 0, 0, comm, MPI_STATUS_IGNORE);
-            MPI_Send(buffer, size, MPI_DOUBLE, 0, 0, comm);
+            MPI_Recv(buffer, size, MPI_CHAR, 0, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Send(buffer, strlen(buffer) + 1, MPI_CHAR, 0, 0, comm);
 
             // printf("[%d] Sending to process 0\n", it);
             // MPI_Send(&it, 1, MPI_INT, 0, 1, comm);
