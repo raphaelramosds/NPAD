@@ -3,9 +3,12 @@
 #include <string.h>
 #include <time.h>
 
-const int LIMIT = 1000;
+const int limit = 1000;
+const int size = 1000;
 
 int main(void) {
+    double buffer[size];
+    
     int it = 0;
 	
     int comm_sz;
@@ -17,7 +20,6 @@ int main(void) {
     clock_t start_t, end_t;
 #endif
 
-    MPI_Status status;
     MPI_Comm comm = MPI_COMM_WORLD;
 
     /* Start up MPI */
@@ -35,8 +37,10 @@ int main(void) {
     /* Get my rank among all the processes */
     MPI_Comm_rank(MPI_COMM_WORLD, &my_rank);
 
-    while (it < LIMIT) {
+    while (it < limit) {
         if (my_rank == 0) {
+            for (int i=0; i < size; i++) buffer[i] = i;
+
 #if WTIME
             start = MPI_Wtime();
 #else
@@ -45,8 +49,8 @@ int main(void) {
 
             // printf("[%d] Sending to process 1\n", it);
             // MPI_Send(&it, 1, MPI_INT, 1, 0, comm);
-            MPI_Send(NULL, 0, MPI_INT, 1, 0, comm);
-            MPI_Recv(NULL, 0, MPI_INT, 1, 0, comm, &status);
+            MPI_Send(buffer, size, MPI_DOUBLE, 1, 0, comm);
+            MPI_Recv(buffer, size, MPI_DOUBLE, 1, 0, comm, MPI_STATUS_IGNORE);
 
             // MPI_Recv(&it, 1, MPI_INT, 1, 1, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 1\n", it);
@@ -65,8 +69,8 @@ int main(void) {
             // MPI_Recv(&it, 1, MPI_INT, 0, 0, comm, MPI_STATUS_IGNORE);
             // printf("[%d] Received from process 0\n", it);
 
-            MPI_Recv(NULL, 0, MPI_INT, 0, 0, comm, &status);
-            MPI_Send(NULL, 0, MPI_INT, 0, 0, comm);
+            MPI_Recv(buffer, size, MPI_DOUBLE, 0, 0, comm, MPI_STATUS_IGNORE);
+            MPI_Send(buffer, size, MPI_DOUBLE, 0, 0, comm);
 
             // printf("[%d] Sending to process 0\n", it);
             // MPI_Send(&it, 1, MPI_INT, 0, 1, comm);
